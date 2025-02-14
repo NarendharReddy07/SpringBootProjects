@@ -31,6 +31,8 @@ public class SecurityConfig {
                 .build();
     }
 
+
+
     @Autowired
     public  void configureGlobal(AuthenticationManagerBuilder auth)throws Exception{
         auth.userDetailsService(userDetails).passwordEncoder(passwordEncoder());

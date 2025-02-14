@@ -43,12 +43,13 @@ public class UserController {
 
     }
 
-//    @DeleteMapping("/user")
-//    public ResponseEntity<?> deleteUserById(){
-//        Authentication authentication= SecurityContextHolder.getContext().getAuthentication();
-//        userService.deleteByUserName(authentication.getName());
-//        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-//    }
+    @DeleteMapping
+    public ResponseEntity<?> deleteUserName(){
+        Authentication authentication= SecurityContextHolder.getContext().getAuthentication();
+        String userName=authentication.getName();
+        userService.deleteByUserName(userName);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 
 
     @GetMapping
