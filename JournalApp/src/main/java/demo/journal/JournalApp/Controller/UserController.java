@@ -31,14 +31,14 @@ public class UserController {
 //        }
 //    }
 
-    @PostMapping
+    @PutMapping
     public ResponseEntity<?> updateUser(@RequestBody User user){
         Authentication authentication= SecurityContextHolder.getContext().getAuthentication();
         String userName=authentication.getName();
         User userInDb=userService.findByUsername(userName);
         userInDb.setUsername(user.getUsername());
         userInDb.setPassword(user.getPassword());
-        userService.save(userInDb);
+        userService.saveNewUser(userInDb);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 
     }

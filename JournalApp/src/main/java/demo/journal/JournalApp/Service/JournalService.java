@@ -59,15 +59,23 @@ public class JournalService {
         return journalRepo.findAll();
     }
 
-    public Optional<JournalEntity> getById(ObjectId id) {
+    public Optional<JournalEntity> findById(ObjectId id) {
         return journalRepo.findById(id);
     }
 
-    public void deleteJournal(ObjectId id,String userName){
-        User savedUser=userService.findByUsername(userName);
-        savedUser.getJournalEntityList().removeIf(x->x.getId().equals(id));
-        userService.save(savedUser);
-        journalRepo.deleteById(id);
+    @Transactional
+    public boolean deleteJournalById(ObjectId id,String userName){
+        try{
+            User savedUser=userService.findByUsername(userName);
+            savedUser.getJournalEntityList().removeIf(x->x.getId().equals(id));
+            userService.save(savedUser);
+            journalRepo.deleteById(id);
+            return true;
+        }
+        catch (Exception e){
+            return false;
+        }
+
     }
 
 
