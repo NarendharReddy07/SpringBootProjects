@@ -25,6 +25,7 @@ public class SecurityConfig {
                 req->
                         req.requestMatchers("/public/**").permitAll()
                                 .requestMatchers("/journal/**","/user/**").authenticated()
+                                .requestMatchers("/admin/**").hasRole("ADMIN")
                                 .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)

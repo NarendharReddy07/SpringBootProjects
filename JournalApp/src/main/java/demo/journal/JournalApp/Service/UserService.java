@@ -42,6 +42,12 @@ public class UserService {
          userRepo.deleteByUsername(userName);
     }
 
+    public void saveAdmin(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRoles(Arrays.asList("USER","ADMIN"));
+        userRepo.save(user);
+    }
+
 //    public void deleteByUserName(String name) {
 //        userRepo.deleteByUserName(name);
 //    }
