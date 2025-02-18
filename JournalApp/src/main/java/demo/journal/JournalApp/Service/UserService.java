@@ -2,6 +2,9 @@ package demo.journal.JournalApp.Service;
 
 import demo.journal.JournalApp.Model.User;
 import demo.journal.JournalApp.Repository.UserRepo;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -11,10 +14,14 @@ import java.util.Arrays;
 import java.util.List;
 
 @Service
+@Slf4j
+//simple logging facade for java
 public class UserService {
 
     private static final PasswordEncoder passwordEncoder=new BCryptPasswordEncoder();
 
+    //no need to instantiate Logger if slf4j is used
+    //private static final Logger logger= LoggerFactory.getLogger(UserService.class);
     @Autowired
     UserRepo userRepo;
 
@@ -25,9 +32,28 @@ public class UserService {
 
 
     public void saveNewUser(User user){
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRoles(Arrays.asList("USER"));
-        userRepo.save(user);
+        try{
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            user.setRoles(Arrays.asList("USER"));
+            //logger.info("user saved {}",user.getUsername());
+            log.info("user saved {}",user.getUsername());
+
+
+            userRepo.save(user);
+        }
+        catch (Exception e){
+            //System.out.println(e);
+            //if used slf4j use log
+            log.info("this is info");
+            log.error("error in saving user {}",user.getUsername());
+
+            //if not used slf4j
+//            logger.info("this is info");
+//            logger.error("error in saving user {}",user.getUsername());
+//            logger.debug("this is debug(please enable logging level in applications.properties to use this)");
+//            logger.trace("this is trace");
+        }
+
     }
 
     public List<User> findAll(){
